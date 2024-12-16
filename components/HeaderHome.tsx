@@ -48,10 +48,56 @@ export default function HeaderHome() {
             }}
           >
             <TouchableOpacity>
-              <Icon name="email" size={24} style={{ color: "#fff" }} />
+              <View style={{ position: "relative" }}>
+                <Icon name="email" size={24} style={{ color: "#fff" }} />
+                <View
+                  style={{
+                    position: "absolute",
+                    top: -5,
+                    right: -10,
+                    width: 16,
+                    height: 16,
+                    borderRadius: 10,
+                    backgroundColor: "red",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 12, color: "#fff", fontWeight: "bold" }}
+                  >
+                    4
+                  </Text>
+                </View>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity>
-              <Icon name="notifications" size={24} style={{ color: "#fff" }} />
+              <View style={{ position: "relative" }}>
+                <Icon
+                  name="notifications"
+                  size={24}
+                  style={{ color: "#fff" }}
+                />
+                <View
+                  style={{
+                    position: "absolute",
+                    right: -6,
+                    top: -5,
+                    backgroundColor: "red",
+                    width: 16,
+                    height: 16,
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 12, color: "#fff", fontWeight: "bold" }}
+                  >
+                    5
+                  </Text>
+                </View>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity>
               <Icon name="shopping-cart" size={24} style={{ color: "#fff" }} />

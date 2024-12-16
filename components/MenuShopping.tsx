@@ -12,13 +12,24 @@ export default function MenuShopping() {
         style={{
           alignItems: "center",
           marginHorizontal: 10,
+          paddingVertical: 10,
+          paddingHorizontal: 5,
+          gap: 5,
         }}
       >
         <Image
           source={item.icon}
-          style={{ width: 50, height: 50, marginBottom: 5 }}
+          style={{ width: 30, height: 30, marginBottom: 5 }}
         />
-        <Text style={{ fontSize: 12, color: "#888", textAlign: "center" }}>
+        <Text
+          style={{
+            fontSize: 10,
+            color: "black",
+            textAlign: "center",
+            fontWeight: "400",
+            fontFamily: "Poppins-Regular",
+          }}
+        >
           {item.label}
         </Text>
       </TouchableOpacity>
@@ -26,17 +37,19 @@ export default function MenuShopping() {
   };
 
   return (
-    <FlatList
-      data={menuData}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      horizontal
-      contentContainerStyle={{
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        backgroundColor: "#fff",
-      }}
-      showsHorizontalScrollIndicator={false}
-    />
+    <View>
+      <FlatList
+        data={menuData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        horizontal
+        contentContainerStyle={{
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+          backgroundColor: "#fff",
+        }}
+        showsHorizontalScrollIndicator={false}
+      />
+    </View>
   );
 }

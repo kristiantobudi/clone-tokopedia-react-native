@@ -31,7 +31,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <Icon name="home" size={30} style={{ color: color }} />
+            <Icon name="home" size={24} style={{ color: color }} />
           ),
         }}
       />
@@ -40,7 +40,7 @@ export default function TabLayout() {
         options={{
           title: "Feed",
           tabBarIcon: ({ color }) => (
-            <Icon name="feed" size={30} style={{ color: color }} />
+            <Icon name="feed" size={24} style={{ color: color }} />
           ),
         }}
       />
@@ -49,7 +49,25 @@ export default function TabLayout() {
         options={{
           title: "Store",
           tabBarIcon: ({ color }) => (
-            <Icon name="store" size={30} style={{ color: color }} />
+            <Icon name="store" size={24} style={{ color: color }} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="official-store"
+        options={{
+          title: "Official Store",
+          tabBarIcon: ({ color }) => (
+            <Icon name="store" size={24} style={{ color: color }} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="wishlist"
+        options={{
+          title: "Wishlist",
+          tabBarIcon: ({ color }) => (
+            <Icon name="favorite" size={24} style={{ color: color }} />
           ),
         }}
       />
