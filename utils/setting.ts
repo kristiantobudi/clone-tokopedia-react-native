@@ -1,14 +1,14 @@
 import axios from "axios";
 
 type LoginUserProps = {
-  username: string;
+  email: string;
   password: string;
 };
 
 export const login = async (data: LoginUserProps): Promise<any> => {
   try {
     const response = await axios.post(
-      "https://express-js-tau-three.vercel.app/api/v1/auth/login",
+      "https://airdrop-endpoint-production.up.railway.app/api/login",
       data,
       {
         headers: {

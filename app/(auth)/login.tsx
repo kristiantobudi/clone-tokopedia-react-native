@@ -14,15 +14,18 @@ import { RootStackParamList } from "@/constants/NavigationType";
 import { login } from "@/utils/setting";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSession } from "../ctx";
 
 const imageLogin = require("../../assets/images/computer-security-with-login-password-padlock.png");
 
 type LoginFormProps = {
-  username: string;
+  email: string;
   password: string;
 };
 
 export default function Login() {
+  const { signIn } = useSession();
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -36,7 +39,7 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormProps>({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -44,16 +47,35 @@ export default function Login() {
   const onSubmit = async (data: LoginFormProps) => {
     try {
       const response = await login({
-        username: data.username,
+        email: data.email,
         password: data.password,
       });
-      router.push("/(dashboard)/dashboard");
+
+      if (response?.success && response?.data) {
+        const { token, name } = response.data;
+
+        await AsyncStorage.setItem("token", token);
+
+        signIn({
+          token,
+          user: { name, email: data.email },
+        });
+        router.push("/(dashboard)/dashboard");
+      } else {
+        const errorMessage =
+          typeof response?.message === "string"
+            ? response.message
+            : "Invalid credentials. Please try again.";
+
+        Alert.alert("Login Failed", errorMessage);
+      }
     } catch (error: any) {
-      Alert.alert(
-        "Login Failed",
-        error.message || "Something went wrong. Please try again."
-      );
-      console.error(error);
+      const errorMessage =
+        typeof error?.message === "string"
+          ? error.message
+          : "An unexpected error occurred. Please try again.";
+
+      Alert.alert("Error", errorMessage);
     }
   };
 
@@ -65,22 +87,22 @@ export default function Login() {
           <Text style={styles.label}>Username</Text>
           <Controller
             control={control}
-            name="username"
+            name="email"
             rules={{
               required: "Username is required",
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={[styles.input, errors.username && styles.inputError]}
+                style={[styles.input, errors.email && styles.inputError]}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                placeholder="Enter your username"
+                placeholder="Enter your email"
               />
             )}
           />
-          {errors.username && (
-            <Text style={styles.errorText}>{errors.username.message}</Text>
+          {errors.email && (
+            <Text style={styles.errorText}>{errors.email.message}</Text>
           )}
         </View>
 
