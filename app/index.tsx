@@ -16,7 +16,7 @@ export default function FirstPage() {
         const hasSeenFirstPage = await AsyncStorage.getItem("hasSeenFirstPage");
         if (hasSeenFirstPage) {
           setIsFirstLaunch(false);
-          router.push("/(dashboard)/dashboard");
+          router.replace("/(dashboard)/dashboard");
         } else {
           setIsFirstLaunch(true);
         }
@@ -32,7 +32,7 @@ export default function FirstPage() {
   const handleGetStarted = async () => {
     try {
       await AsyncStorage.setItem("hasSeenFirstPage", "true");
-      router.push("/(auth)/login");
+      router.replace("/(auth)/login");
     } catch (error) {
       console.error("Error setting first launch flag:", error);
     }

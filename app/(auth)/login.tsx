@@ -12,7 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/constants/NavigationType";
 import { login } from "@/utils/setting";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSession } from "../ctx";
@@ -51,7 +51,7 @@ export default function Login() {
         password: data.password,
       });
 
-      if (response?.success && response?.data) {
+      if (response?.status && response?.data) {
         const { token, name } = response.data;
 
         await AsyncStorage.setItem("token", token);
@@ -78,6 +78,15 @@ export default function Login() {
       Alert.alert("Error", errorMessage);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        router.replace("/(dashboard)/dashboard");
+      }
+    })();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -163,11 +172,10 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
-    marginBottom: 20,
   },
   formContainer: {
     width: "70%",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   inputGroup: {
     marginBottom: 20,
@@ -179,7 +187,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   input: {
-    height: 40,
+    height: 50,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#ccc",
@@ -211,7 +219,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   passwordInput: {
-    height: 40,
+    height: 50,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#ccc",

@@ -12,7 +12,6 @@ export default function BackgroundImage() {
     >
       <Image
         source={image}
-        resizeMode="contain"
         width={100}
         height={100}
         style={{
