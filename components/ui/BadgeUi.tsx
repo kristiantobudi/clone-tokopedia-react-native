@@ -11,7 +11,7 @@ export default function BadgeUi() {
             position: "absolute",
             top: 0,
             right: 3,
-            backgroundColor: "red",
+            backgroundColor: "#5F33E1",
             borderRadius: 100,
             width: 10,
             height: 10,
