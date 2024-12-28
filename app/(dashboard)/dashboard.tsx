@@ -1,14 +1,17 @@
+import TaskGroup from "@/components/TaskGroup";
 import BadgeAccount from "@/components/ui/BadgeAccount";
 import BadgeUi from "@/components/ui/BadgeUi";
+import Carousel from "@/components/ui/Carousel";
 import LogoutButton from "@/components/ui/LogoutButton";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
+import PagerView from "react-native-pager-view";
 
 export default function Dashboard() {
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
         style={{
           flexDirection: "row",
@@ -21,6 +24,7 @@ export default function Dashboard() {
         <BadgeAccount />
         <LogoutButton />
       </View>
+
       <View style={{ alignItems: "center" }}>
         <View
           style={{
@@ -105,6 +109,13 @@ export default function Dashboard() {
             )}
           </AnimatedCircularProgress>
         </View>
+      </View>
+
+      <View style={{ marginTop: 10 }}>
+        <Carousel />
+      </View>
+      <View style={{ marginTop: 10, flex: 1 }}>
+        <TaskGroup />
       </View>
     </View>
   );

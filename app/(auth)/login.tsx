@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSession } from "../ctx";
+import Checkbox from "expo-checkbox";
 
 const imageLogin = require("../../assets/images/computer-security-with-login-password-padlock.png");
 
@@ -25,6 +26,7 @@ type LoginFormProps = {
 };
 
 export default function Login() {
+  const [isChecked, setChecked] = useState(false);
   const { signIn } = useSession();
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
@@ -37,12 +39,32 @@ export default function Login() {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<LoginFormProps>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
+
+  useEffect(() => {
+    const loadCredentials = async () => {
+      try {
+        const savedEmail = await AsyncStorage.getItem("email");
+        const savedPassword = await AsyncStorage.getItem("password");
+        const rememberMe = await AsyncStorage.getItem("rememberMe");
+
+        if (savedEmail && savedPassword && rememberMe === "true") {
+          setValue("email", savedEmail);
+          setValue("password", savedPassword);
+          setChecked(true);
+        }
+      } catch (error) {
+        console.error("Failed to load credentials:", error);
+      }
+    };
+    loadCredentials();
+  }, [setValue]);
 
   const onSubmit = async (data: LoginFormProps) => {
     try {
@@ -53,6 +75,16 @@ export default function Login() {
 
       if (response?.status && response?.data) {
         const { token, name } = response.data;
+
+        if (isChecked) {
+          await AsyncStorage.setItem("email", data.email);
+          await AsyncStorage.setItem("password", data.password);
+          await AsyncStorage.setItem("rememberMe", "true");
+        } else {
+          await AsyncStorage.removeItem("email");
+          await AsyncStorage.removeItem("password");
+          await AsyncStorage.removeItem("rememberMe");
+        }
 
         await AsyncStorage.setItem("token", token);
 
@@ -150,6 +182,21 @@ export default function Login() {
           {errors.password && (
             <Text style={styles.errorText}>{errors.password.message}</Text>
           )}
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 15,
+          }}
+        >
+          <Checkbox
+            style={{ marginRight: 10, borderRadius: 5 }}
+            value={isChecked}
+            onValueChange={setChecked}
+            color={isChecked ? "#5F33E1" : undefined}
+          />
+          <Text>Remember Password</Text>
         </View>
       </View>
       <TouchableOpacity

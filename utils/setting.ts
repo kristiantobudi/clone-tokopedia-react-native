@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { AuthLoginEndpoint, AuthLogoutEndpoint } from "./client/constant";
 
 type LoginUserProps = {
   email: string;
@@ -9,7 +10,7 @@ type LoginUserProps = {
 export const login = async (data: LoginUserProps): Promise<any> => {
   try {
     const response = await axios.post(
-      "https://airdrop-endpoint-production.up.railway.app/api/login",
+      `${process.env.EXPO_PUBLIC_API_URL}${AuthLoginEndpoint}`,
       data,
       {
         headers: {
@@ -44,7 +45,7 @@ export const logout = async () => {
     }
 
     await axios.post(
-      "https://airdrop-endpoint-production.up.railway.app/api/v1/logout",
+      `${process.env.EXPO_PUBLIC_API_URL}${AuthLogoutEndpoint}`,
       {},
       {
         headers: {
